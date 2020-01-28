@@ -1,0 +1,23 @@
+---
+
+- name:  Playbook to backup hawks team git repo to zdvxsnx home folder
+  connection: local
+  gather_facts: false
+  become: true
+  hosts:
+    - localhost
+  become_method: sudo
+  tasks:
+    - name: "Create backup folder in zdvxsnx home dir"
+      become_user: zdvxsnx
+      file:
+        path:  /home/zdvxsnx/hawks_repo_backups/
+        state: directory
+
+    - name: "Create a zip archive of latest hawks repo in backup folder"
+      become_user: zdvxsnx
+      archive:
+        path:
+          - /proj/athena/files/hawks/hawks_scripts_v3
+        dest: /home/zdvxsnx/hawks_repo_backups/hawks_v3.zip
+        format: zip
